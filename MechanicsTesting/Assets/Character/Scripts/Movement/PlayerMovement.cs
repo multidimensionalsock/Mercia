@@ -13,6 +13,7 @@ public class PlayerMovement : MonoBehaviour
     bool grounded = true;
     [SerializeField] float jumpForce;
     [SerializeField] float movementSpeed;
+    [SerializeField] float rotationSpeed;
 
     private void OnEnable()
     {
@@ -42,11 +43,30 @@ public class PlayerMovement : MonoBehaviour
 
     IEnumerator Move()
     {
+        GameObject cameraLook = transform.GetChild(0).gameObject;
+        GameObject model = transform.GetChild(1).gameObject;
+
+
         while (_movementDirection != Vector3.zero)
         {
-            transform.position += _movementDirection * movementSpeed * Time.fixedDeltaTime;
+            //if (m_movementLock)
+            //{
+            //    yield return new WaitForFixedUpdate();
+            //    continue;
+            //}
+            transform.position += new Vector3(_movementDirection.x * movementSpeed * Time.fixedDeltaTime,
+                0f, _movementDirection.z * movementSpeed * Time.fixedDeltaTime);
+            //_rigidbody.AddForce(cameraLook.transform.forward * _movementDirection.z * movementSpeed);
+            //_rigidbody.AddForce(cameraLook.transform.right * _movementDirection.x * movementSpeed);
+            //_rigidbody.velocity = Vector3.ClampMagnitude(Vector3.ProjectOnPlane(_rigidBody.velocity, Vector3.up), m_maxSpeed) + (Vector3.up * m_rigidBody.velocity.y);
+            //m_rigidBody.velocity = Vector3.ClampMagnitude(m_rigidBody.velocity, m_maxSpeed);
+
+            Quaternion targetRot = cameraLook.transform.rotation * Quaternion.LookRotation(_movementDirection, Vector3.up);
+            model.transform.rotation = Quaternion.Slerp(model.transform.rotation, targetRot, rotationSpeed);
+
             yield return new WaitForFixedUpdate();
         }
+        //m_rigidBody.velocity = Vector3.zero;
     }
 
     void Jump(InputAction.CallbackContext context)
