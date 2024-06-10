@@ -14,6 +14,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float jumpForce;
     [SerializeField] float movementSpeed;
     [SerializeField] float rotationSpeed;
+    [SerializeField] Transform cameraTranform;
 
     private void OnEnable()
     {
@@ -54,19 +55,14 @@ public class PlayerMovement : MonoBehaviour
             //    yield return new WaitForFixedUpdate();
             //    continue;
             //}
-            transform.position += new Vector3(_movementDirection.x * movementSpeed * Time.fixedDeltaTime,
-                0f, _movementDirection.z * movementSpeed * Time.fixedDeltaTime);
-            //_rigidbody.AddForce(cameraLook.transform.forward * _movementDirection.z * movementSpeed);
-            //_rigidbody.AddForce(cameraLook.transform.right * _movementDirection.x * movementSpeed);
-            //_rigidbody.velocity = Vector3.ClampMagnitude(Vector3.ProjectOnPlane(_rigidBody.velocity, Vector3.up), m_maxSpeed) + (Vector3.up * m_rigidBody.velocity.y);
-            //m_rigidBody.velocity = Vector3.ClampMagnitude(m_rigidBody.velocity, m_maxSpeed);
-
-            Quaternion targetRot = cameraLook.transform.rotation * Quaternion.LookRotation(_movementDirection, Vector3.up);
-            model.transform.rotation = Quaternion.Slerp(model.transform.rotation, targetRot, rotationSpeed);
+            Vector3 prepos = new Vector3( transform.position.x, 0f, transform.position.z);
+            transform.position += cameraTranform.forward * _movementDirection.z * movementSpeed * Time.fixedDeltaTime;
+            transform.position += cameraTranform.right * _movementDirection.x * movementSpeed * Time.fixedDeltaTime;
+            Vector3 newpos = new Vector3(transform.position.x, 0f, transform.position.z);
+            model.transform.rotation = Quaternion.LookRotation(newpos - prepos, Vector3.up);
 
             yield return new WaitForFixedUpdate();
         }
-        //m_rigidBody.velocity = Vector3.zero;
     }
 
     void Jump(InputAction.CallbackContext context)
