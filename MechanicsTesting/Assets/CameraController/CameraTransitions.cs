@@ -16,16 +16,5 @@ public class CameraTransitions : MonoBehaviour
     {
         int areaCode = (int)area;
         animator.SetInteger("AreaCode", areaCode);
-        //switch (area)
-        //{
-        //    case Area.BoatBeach:
-        //        break;
-        //    case Area.Town:
-        //        break;
-        //    case Area.TownToDonuts:
-        //        break;
-        //    case Area.DonutBridge:
-        //        break;
-        //}
     }
 }

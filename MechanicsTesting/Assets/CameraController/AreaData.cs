@@ -5,9 +5,10 @@ using UnityEngine;
 public enum Area
 { 
     BoatBeach = 0, 
-    Town, 
-    TownToDonuts,
-    DonutBridge
+    BoatBeachToTown = 1,
+    Town = 2,
+    TownToDonutShop = 3,
+    DonutShop = 4
 }
 
 public class AreaData : MonoBehaviour
