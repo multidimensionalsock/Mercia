@@ -11,7 +11,10 @@ public enum Area
     DonutShop = 4,
     PathToWaterfall = 5,
     PathToWaterfall2 = 6,
-    WaterFallBeach = 7
+    WaterFallBeach = 7,
+    BeachPath1 = 8,
+    BeachPath2 = 9,
+    BeachPath3 = 10
 }
 
 public class AreaData : MonoBehaviour
